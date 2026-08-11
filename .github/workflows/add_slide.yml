@@ -1,0 +1,20 @@
+name: Add presentation slide
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  add-slide:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download slide from Google Drive
+        run: |
+          curl -L -o "Presentation ESG Dashboard.pptx" "https://drive.google.com/uc?export=download&id=1OkS_guzPpqt32oFK9P78es5UTuMC-oKP"
+          head -c 2 "Presentation ESG Dashboard.pptx" | grep -q PK
+      - name: Commit and push
+        run: |
+          git config user.name "esg-bot"
+          git config user.email "esg-bot@users.noreply.github.com"
+          git add "Presentation ESG Dashboard.pptx"
+          git commit -m "Add ESG presentation slide"
+          git push
